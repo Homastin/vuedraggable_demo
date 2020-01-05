@@ -22,8 +22,9 @@
                    @onChoose="onChoose"
                    @start="onStart"
                    @change="onChange"
-                   @remove="OnRemove"
+                   @remove="onRemove"
                    @sort="onSort"
+                   @add="onAdd"
                    @end="onEnd"
                    tag="ul">
           <li v-for="(list2Item,list2Idx) in list2" :key="list2Idx" class="list2-group-item">
@@ -38,7 +39,7 @@
                    @onChoose="onChoose"
                    @start="onStart"
                    @change="onChange"
-                   @remove="OnRemove"
+                   @remove="onRemove"
                    @sort="onSort"
                    @end="onEnd"
                    tag="ul">
@@ -164,8 +165,9 @@
       onMove(evt) {
         console.log('move', evt);
       },
-      OnRemove(e) {
+      onRemove(e) {
         console.log('remove', e);
+        this.isOutsideDrop = false;
       },
       onStart(e) {
         console.log('start', e);
@@ -183,19 +185,23 @@
       },
       onEnd(e) {
         console.log('end', e);
+        console.log(this.isOutsideDrop);
         if (this.isOutsideDrop) {
-          e.item.parentNode.removeChild(e.item);
-          this.$message.success('删除成功');
+          let arrName = e.item.className.split('-')[0];
+          this[arrName].splice(e.oldIndex, 1);
         }
       },
       onSort(e) {
         console.log('sort', e);
       },
+      onAdd(e) {
+        console.log(e);
+        this.isOutsideDrop = false;
+      }
     },
     mounted() {
       document.documentElement.addEventListener('dragover', function (evt) {
         evt.preventDefault();
-
       });
       this.$refs.list2.$el.addEventListener('drop', function (evt) {
         this.isOutsideDrop = false;
@@ -240,7 +246,7 @@
 
     .list2-group {
       display: flex;
-      margin-bottom: 30px;
+      margin-bottom: 130px;
       border: 2px solid #e4393c;
 
       &-item {
