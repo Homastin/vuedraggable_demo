@@ -25,7 +25,6 @@
                    @remove="OnRemove"
                    @sort="onSort"
                    @end="onEnd"
-                   @drop="onDrop"
                    tag="ul">
           <li v-for="(list2Item,list2Idx) in list2" :key="list2Idx" class="list2-group-item">
             {{list2Item.value}}
@@ -42,7 +41,6 @@
                    @remove="OnRemove"
                    @sort="onSort"
                    @end="onEnd"
-                   @drop="onDrop"
                    tag="ul">
           <li v-for="(list3Item,list3Idx) in list3" :key="list3Idx" class="list3-group-item">
             {{list3Item.value}}
@@ -193,14 +191,11 @@
       onSort(e) {
         console.log('sort', e);
       },
-      onDrop(e) {
-        console.log('drop', e);
-
-      },
     },
     mounted() {
       document.documentElement.addEventListener('dragover', function (evt) {
         evt.preventDefault();
+
       });
       this.$refs.list2.$el.addEventListener('drop', function (evt) {
         this.isOutsideDrop = false;
