@@ -187,8 +187,12 @@
         console.log('end', e);
         console.log(this.isOutsideDrop);
         if (this.isOutsideDrop) {
+          this.tableLoading = true;
           let arrName = e.item.className.split('-')[0];
           this[arrName].splice(e.oldIndex, 1);
+          setTimeout(() => {
+            this.tableLoading = false;
+          }, 1000);
         }
       },
       onSort(e) {
@@ -203,8 +207,9 @@
       document.documentElement.addEventListener('dragover', function (evt) {
         evt.preventDefault();
       });
-      this.$refs.list2.$el.addEventListener('drop', function (evt) {
+      this.$refs.list2.$el.addEventListener('drop', () => {
         this.isOutsideDrop = false;
+        console.log(this.isOutsideDrop);
       });
     }
   };
